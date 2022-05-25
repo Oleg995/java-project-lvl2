@@ -22,7 +22,7 @@ compileJava {
 }
 
 application {
-    mainClass = 'io.hexlet.boilerplate.HelloWorld'
+    mainClass = 'hexlet.code.App'
 }
 
 dependencies {
