@@ -19,6 +19,7 @@ repositories {
 
 compileJava {
     options.release = 17
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 application {
@@ -36,11 +37,16 @@ dependencies {
             'org.assertj:assertj-core:3.22.0'
     )
 
-    errorprone 'com.google.errorprone:error_prone_core:2.11.0'
+    errorprone 'com.google.errorprone:error_prone_core:2.13.1'
+    implementation 'info.picocli:picocli:4.6.3'
+    annotationProcessor 'info.picocli:picocli-codegen:4.6.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 testlogger {
@@ -48,9 +54,7 @@ testlogger {
 }
 
 jacocoTestReport {
-    reports {
-        xml.required = true
-    }
+    dependsOn test
 }
 
 checkstyle {
