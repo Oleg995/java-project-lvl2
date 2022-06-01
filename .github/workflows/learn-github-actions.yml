@@ -1,17 +1,29 @@
-name: GitHub Actions Demo
-on: [push]
+name: Java CI
+
+on:
+  - push
+  - pull_request
+
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: build
+       - name: Publish code coverage
+         uses: paambaati/codeclimate-action@v3.0.0
+         env:
+           CC_TEST_REPORTER_ID: ${{secrets.ccab3c613738585beb9f5170c94b4f494c2a17c99b46597ce04afb1530f34699}}
+           JACOCO_SOURCE_PATH: src/main/java
+        with:
+           coverageCommand: make report
+           coverageLocations: ${{github.workspace}}/build/reports/jacoco/test/jacocoTestReport.xml:jacoco

@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="hexlet.code.DifferTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-06-01T15:31:36" hostname="yatorogod-laptop" time="0.717">
+<testsuite name="hexlet.code.DifferTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-06-01T20:25:22" hostname="yatorogod-laptop" time="0.67">
   <properties/>
-  <testcase name="generateTest()" classname="hexlet.code.DifferTest" time="0.713"/>
-  <testcase name="generateTest2()" classname="hexlet.code.DifferTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="test()" classname="hexlet.code.DifferTest" time="0.04"/>
+  <testcase name="generateTest()" classname="hexlet.code.DifferTest" time="0.623"/>
+  <testcase name="generateTest2()" classname="hexlet.code.DifferTest" time="0.004"/>
+  <system-out><![CDATA[/home/yatorogod/java-project-lvl2/src/test/resources
+]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
