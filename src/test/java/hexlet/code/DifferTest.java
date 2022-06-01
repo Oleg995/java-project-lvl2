@@ -28,13 +28,7 @@ public class DifferTest {
         assertThat(Differ.generate("src/test/resources/fileOne.json", "src/test/resources/fileTwo.json")).
                 isEqualTo(file);
     }
-    @Test
-    public void generateTest2() throws IOException {
-        String file = Files.readString(Paths.get("/home/yatorogod/java-project-lvl2/src/test/resources/example"));
-        assertThat(Differ.generate("/home/yatorogod/java-project-lvl2/src/test/resources/fileOne.json",
-                "/home/yatorogod/java-project-lvl2/src/test/resources/fileTwo.json")).
-                isEqualTo(file);
-    }
+
 
 
 }
