@@ -1,31 +1,36 @@
 package hexlet.code;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
-public class JsonHandler {
+public class Differ {
 
-    public static Map<Object, Object> getJsonFromFile(final String filePath) throws IOException {
+    public static String generate(String filePath1, String filePath2) throws IOException {
+        Map<Object, Object> map1 = getJsonFromFile(filePath1);
+        Map<Object, Object> map2 = getJsonFromFile(filePath2);
+        var s = unionOfKeys(map1, map2).stream().
+                map(it -> getResultMap(map1, map2, (String) it)).toList();
+        return stringBuilder(s);
+    }
+    private static Map<Object, Object> getJsonFromFile(final String filePath) throws IOException {
         String content = Files.readString(Paths.get(filePath));
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(content, new TypeReference<>() {
         });
     }
 
-    public static String generate(Map<Object, Object> map1, Map<Object, Object> map2) throws IOException {
-        var s = unionOfKeys(map1, map2).stream().
-                map(it -> getResultMap(map1, map2, (String) it)).toList();
-        return stringBuilder(s);
-    }
-
     private static SortedSet<String> getResultMap(Map<Object, Object> map1, Map<Object, Object> map2, String key) {
-        SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String o) -> o.toLowerCase().substring(1)));
+        SortedSet<String> keys = new TreeSet<>(String::compareToIgnoreCase);
         if (map2.containsKey(key) && map1.containsKey(key)) {
             if (Objects.equals(map1.get(key), map2.get(key))) {
                 keys.add(" " + key + ":" + map1.get(key) + "\n");
@@ -33,9 +38,9 @@ public class JsonHandler {
                 keys.add("-" + key + ":" + map1.get(key) + "\n");
                 keys.add("+" + key + ":" + map2.get(key) + "\n");
             }
-        } else if (!map1.containsKey(key)){
+        } else if (!map1.containsKey(key)) {
             keys.add("+" + key + ":" + map2.get(key) + "\n");
-        } else if (!map2.containsKey(key)){
+        } else if (!map2.containsKey(key)) {
             keys.add("-" + key + ":" + map1.get(key) + "\n");
         }
         return keys;
@@ -49,7 +54,7 @@ public class JsonHandler {
 
     private static String stringBuilder(List<SortedSet<String>> s) {
         StringBuilder result = new StringBuilder("{\n");
-        for (SortedSet<String> line : s ) {
+        for (SortedSet<String> line : s) {
             for (String stringLine: line) {
                 result.append(stringLine);
             }
@@ -58,8 +63,6 @@ public class JsonHandler {
         return result.toString();
     }
 }
-
-
 //    public static String generate(Map<Object, Object> map, Map<Object, Object> map2) throws IOException {
 //        Set<Object> examination = map.keySet();
 //        SortedSet<String> list = new TreeSet<>(Comparator.comparing((String o) -> o.toLowerCase().substring(1)));

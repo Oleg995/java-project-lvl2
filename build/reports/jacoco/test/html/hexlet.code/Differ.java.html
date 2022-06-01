@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Differ.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">app</a> &gt; <a href="index.source.html" class="el_package">hexlet.code</a> &gt; <span class="el_source">Differ.java</span></div><h1>Differ.java</h1><pre class="source lang-java linenums">package hexlet.code;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
+
+<span class="nc" id="L16">public class Differ {</span>
+
+    public static String generate(String filePath1, String filePath2) throws IOException {
+<span class="fc" id="L19">        Map&lt;Object, Object&gt; map1 = getJsonFromFile(filePath1);</span>
+<span class="fc" id="L20">        Map&lt;Object, Object&gt; map2 = getJsonFromFile(filePath2);</span>
+<span class="fc" id="L21">        var s = unionOfKeys(map1, map2).stream().</span>
+<span class="fc" id="L22">                map(it -&gt; getResultMap(map1, map2, (String) it)).toList();</span>
+<span class="fc" id="L23">        return stringBuilder(s);</span>
+    }
+    private static Map&lt;Object, Object&gt; getJsonFromFile(final String filePath) throws IOException {
+<span class="fc" id="L26">        String content = Files.readString(Paths.get(filePath));</span>
+<span class="fc" id="L27">        ObjectMapper mapper = new ObjectMapper();</span>
+<span class="fc" id="L28">        return mapper.readValue(content, new TypeReference&lt;&gt;() {</span>
+        });
+    }
+
+    private static SortedSet&lt;String&gt; getResultMap(Map&lt;Object, Object&gt; map1, Map&lt;Object, Object&gt; map2, String key) {
+<span class="fc" id="L33">        SortedSet&lt;String&gt; keys = new TreeSet&lt;&gt;(String::compareToIgnoreCase);</span>
+<span class="fc bfc" id="L34" title="All 4 branches covered.">        if (map2.containsKey(key) &amp;&amp; map1.containsKey(key)) {</span>
+<span class="fc bfc" id="L35" title="All 2 branches covered.">            if (Objects.equals(map1.get(key), map2.get(key))) {</span>
+<span class="fc" id="L36">                keys.add(&quot; &quot; + key + &quot;:&quot; + map1.get(key) + &quot;\n&quot;);</span>
+            } else  {
+<span class="fc" id="L38">                keys.add(&quot;-&quot; + key + &quot;:&quot; + map1.get(key) + &quot;\n&quot;);</span>
+<span class="fc" id="L39">                keys.add(&quot;+&quot; + key + &quot;:&quot; + map2.get(key) + &quot;\n&quot;);</span>
+            }
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        } else if (!map1.containsKey(key)) {</span>
+<span class="fc" id="L42">            keys.add(&quot;+&quot; + key + &quot;:&quot; + map2.get(key) + &quot;\n&quot;);</span>
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        } else if (!map2.containsKey(key)) {</span>
+<span class="fc" id="L44">            keys.add(&quot;-&quot; + key + &quot;:&quot; + map1.get(key) + &quot;\n&quot;);</span>
+        }
+<span class="fc" id="L46">        return keys;</span>
+    }
+
+    private  static SortedSet&lt;Object&gt; unionOfKeys(Map&lt;Object, Object&gt; map1, Map&lt;Object, Object&gt; map2) {
+<span class="fc" id="L50">        SortedSet&lt;Object&gt; keys = new TreeSet&lt;&gt;(map1.keySet());</span>
+<span class="fc" id="L51">        keys.addAll(map2.keySet());</span>
+<span class="fc" id="L52">        return keys;</span>
+    }
+
+    private static String stringBuilder(List&lt;SortedSet&lt;String&gt;&gt; s) {
+<span class="fc" id="L56">        StringBuilder result = new StringBuilder(&quot;{\n&quot;);</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        for (SortedSet&lt;String&gt; line : s) {</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for (String stringLine: line) {</span>
+<span class="fc" id="L59">                result.append(stringLine);</span>
+<span class="fc" id="L60">            }</span>
+<span class="fc" id="L61">        }</span>
+<span class="fc" id="L62">        result.append(&quot;}&quot;);</span>
+<span class="fc" id="L63">        return result.toString();</span>
+    }
+}
+//    public static String generate(Map&lt;Object, Object&gt; map, Map&lt;Object, Object&gt; map2) throws IOException {
+//        Set&lt;Object&gt; examination = map.keySet();
+//        SortedSet&lt;String&gt; list = new TreeSet&lt;&gt;(Comparator.comparing((String o) -&gt; o.toLowerCase().substring(1)));
+//        for (Object key : examination) {
+//            if (map2.containsKey(key)) {
+//                if (Objects.equals(map.get(key), map2.get(key))) {
+//                    list.add(&quot; &quot; + key + &quot;:&quot; + map.get(key) + &quot;\n&quot;);
+//                } else if (!Objects.equals(map.get(key), map2.get(key))) {
+//                    list.add(&quot;-&quot; + key + &quot;:&quot; + map.get(key) + &quot;\n&quot;);
+//                }
+//            } else {
+//                list.add(&quot;-&quot; + key + &quot;:&quot; + map.get(key) + &quot;\n&quot;);
+//            }
+//        }
+//        Set&lt;Object&gt; examination2 = map2.keySet();
+//        for (Object key : examination2) {
+//            if (map.containsKey(key)) {
+//                if (!Objects.equals(map2.get(key), map.get(key))) {
+//                    list.add(&quot;+&quot; + key + &quot;:&quot; + map2.get(key) + &quot;\n&quot;);
+//                }
+//            } else {
+//                list.add(&quot;+&quot; + key + &quot;:&quot; + map2.get(key) + &quot;\n&quot;);
+//            }
+//        }
+//        StringBuilder result = new StringBuilder(&quot;{\n&quot;);
+//        for (String line : list) {
+//            result.append(line);
+//        }
+//        result.append(&quot;}&quot;);
+//        return result.toString();
+//    }
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -40,9 +40,7 @@ public final class App implements Callable<Object> {
 
     @Override
     public Object call() throws Exception {
-        var jsonOne = JsonHandler.getJsonFromFile(fileOne);
-        var jsonTwo = JsonHandler.getJsonFromFile(fileTwo);
-        System.out.println(JsonHandler.generate(jsonOne, jsonTwo));
+        System.out.println(Differ.generate(fileOne, fileTwo));
         return null;
     }
 }
