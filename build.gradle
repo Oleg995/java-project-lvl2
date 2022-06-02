@@ -57,6 +57,9 @@ testlogger {
 }
 
 jacocoTestReport {
+    reports {
+        xml.required = true
+    }
     dependsOn test
 }
 
