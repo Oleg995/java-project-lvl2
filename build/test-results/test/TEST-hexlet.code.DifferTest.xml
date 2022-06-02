@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="hexlet.code.DifferTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-06-02T11:21:50" hostname="yatorogod-laptop" time="1.113">
-  <properties/>
-  <testcase name="test()" classname="hexlet.code.DifferTest" time="0.064"/>
-  <testcase name="generateTest()" classname="hexlet.code.DifferTest" time="1.046"/>
-  <system-out><![CDATA[/home/yatorogod/java-project-lvl2/src/test/resources
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
