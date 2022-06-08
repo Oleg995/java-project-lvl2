@@ -5,7 +5,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
+
 import java.util.concurrent.Callable;
 
 @Command (
@@ -21,9 +21,9 @@ public final class App implements Callable<Object> {
     @Option(names = {"-f", "--format"}, defaultValue = "stylish", description = "output format", paramLabel = "format")
     private DiffFormat format;
     @Parameters(index = "0", description = "path to first file", paramLabel = "filepath1")
-    public String fileOne;
+    private String fileOne;
     @Parameters(index = "1", description = "path to second file", paramLabel = "filepath2")
-    public String fileTwo;
+    private String fileTwo;
 
     public static void main(String[] args) throws Exception {
         CommandLine commandLine = new CommandLine(new App());
