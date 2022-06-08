@@ -2,6 +2,5 @@
   " age" : 26,
   "-bought" : "{Broad: 1, Milk: 2, Butter: 1}",
   "+bought" : "{Milk: 1, Butter: 2, Shake: 3}",
-  "-name" : "Oleg",
-  "+name" : "Dima"
-}
+  "-Name" : "Oleg",
+  "+Name" : "Dima"
