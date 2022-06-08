@@ -27,6 +27,9 @@ lint:
 update-deps:
 	./gradlew useLatestVersions
 
+-f:
+	./build/install/app/bin/app -f
+
 
 
 

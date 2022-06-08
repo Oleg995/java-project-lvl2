@@ -1,95 +1,39 @@
 package hexlet.code;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonSerializable;
+
+import java.util.*;
 
 
 public class Differ {
 
-    public static String generate(String filePath1, String filePath2) throws IOException {
-        Map<Object, Object> map1 = getJsonFromFile(filePath1);
-        Map<Object, Object> map2 = getJsonFromFile(filePath2);
-        var s = unionOfKeys(map1, map2).stream().
-                map(it -> getResultMap(map1, map2, (String) it)).toList();
-        return stringBuilder(s);
-    }
-    private static Map<Object, Object> getJsonFromFile(final String filePath) throws IOException {
-        String content = Files.readString(Paths.get(filePath));
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(content, new TypeReference<>() {
-        });
-    }
-
-    private static SortedSet<String> getResultMap(Map<Object, Object> map1, Map<Object, Object> map2, String key) {
-        SortedSet<String> keys = new TreeSet<>(String::compareToIgnoreCase);
-        if (map2.containsKey(key) && map1.containsKey(key)) {
-            if (Objects.equals(map1.get(key), map2.get(key))) {
-                keys.add(" " + key + ":" + map1.get(key) + "\n");
-            } else  {
-                keys.add("-" + key + ":" + map1.get(key) + "\n");
-                keys.add("+" + key + ":" + map2.get(key) + "\n");
+    public static Set<DiffItem> generate(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
+        Set<String> keys = unionOfKeys(map1, map2);
+        Set<DiffItem> tree = new TreeSet<>(Comparator.comparing(diffItem1 -> diffItem1.name().toLowerCase()));
+        for (String key : keys) {
+            if (map1.containsKey(key) && !map2.containsKey(key)) {
+                DiffItem diffItem = new DiffItem(DiffType.REMOVE, key, map1.get(key), null);
+                tree.add(diffItem);
+            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
+                DiffItem diffItem = new DiffItem(DiffType.ADD, key, null, map2.get(key));
+                tree.add(diffItem);
+            } else if (Objects.equals(map1.get(key), map2.get(key))) {
+                DiffItem diffItem = new DiffItem(DiffType.NOTHING, key, map1.get(key), map1.get(key));
+                tree.add(diffItem);
+            } else if (!Objects.equals(map1.get(key), map2.get(key))) {
+                DiffItem diffItem = new DiffItem(DiffType.CHANGE, key, map1.get(key), map2.get(key));
+                tree.add(diffItem);
             }
-        } else if (!map1.containsKey(key)) {
-            keys.add("+" + key + ":" + map2.get(key) + "\n");
-        } else if (!map2.containsKey(key)) {
-            keys.add("-" + key + ":" + map1.get(key) + "\n");
         }
-        return keys;
+        return tree;
     }
 
-    private  static SortedSet<Object> unionOfKeys(Map<Object, Object> map1, Map<Object, Object> map2) {
-        SortedSet<Object> keys = new TreeSet<>(map1.keySet());
+    private  static Set<String> unionOfKeys(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
+        Set<String> keys = new TreeSet<>(String::compareToIgnoreCase);
+        keys.addAll(map1.keySet());
         keys.addAll(map2.keySet());
         return keys;
     }
-
-    private static String stringBuilder(List<SortedSet<String>> s) {
-        StringBuilder result = new StringBuilder("{\n");
-        for (SortedSet<String> line : s) {
-            for (String stringLine: line) {
-                result.append(stringLine);
-            }
-        }
-        result.append("}");
-        return result.toString();
-    }
 }
-//    public static String generate(Map<Object, Object> map, Map<Object, Object> map2) throws IOException {
-//        Set<Object> examination = map.keySet();
-//        SortedSet<String> list = new TreeSet<>(Comparator.comparing((String o) -> o.toLowerCase().substring(1)));
-//        for (Object key : examination) {
-//            if (map2.containsKey(key)) {
-//                if (Objects.equals(map.get(key), map2.get(key))) {
-//                    list.add(" " + key + ":" + map.get(key) + "\n");
-//                } else if (!Objects.equals(map.get(key), map2.get(key))) {
-//                    list.add("-" + key + ":" + map.get(key) + "\n");
-//                }
-//            } else {
-//                list.add("-" + key + ":" + map.get(key) + "\n");
-//            }
-//        }
-//        Set<Object> examination2 = map2.keySet();
-//        for (Object key : examination2) {
-//            if (map.containsKey(key)) {
-//                if (!Objects.equals(map2.get(key), map.get(key))) {
-//                    list.add("+" + key + ":" + map2.get(key) + "\n");
-//                }
-//            } else {
-//                list.add("+" + key + ":" + map2.get(key) + "\n");
-//            }
-//        }
-//        StringBuilder result = new StringBuilder("{\n");
-//        for (String line : list) {
-//            result.append(line);
-//        }
-//        result.append("}");
-//        return result.toString();
-//    }
+

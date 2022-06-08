@@ -18,12 +18,13 @@ public final class App implements Callable<Object> {
     private boolean usageHelpRequested;
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
     private boolean versionInfoRequested;
-    @Option(names = {"-f", "--format"}, description = "output format [default: stylish]", paramLabel = "format")
-    private File out;
+    @Option(names = {"-f", "--format"}, defaultValue = "stylish", description = "output format", paramLabel = "format")
+    private DiffFormat format;
     @Parameters(index = "0", description = "path to first file", paramLabel = "filepath1")
-    private String fileOne;
+    public String fileOne;
     @Parameters(index = "1", description = "path to second file", paramLabel = "filepath2")
-    private String fileTwo;
+    public String fileTwo;
+
     public static void main(String[] args) throws Exception {
         CommandLine commandLine = new CommandLine(new App());
         commandLine.parseArgs(args);
@@ -34,13 +35,19 @@ public final class App implements Callable<Object> {
         } else {
             commandLine.execute(args);
         }
-
-
     }
 
     @Override
     public Object call() throws Exception {
-        System.out.println(Differ.generate(fileOne, fileTwo));
+        var map1 = Parser.getYamlFromFile(fileOne);
+        var map2 = Parser.getYamlFromFile(fileTwo);
+        var diffItems = Differ.generate(map1, map2);
+        var s = switch (format) {
+            case stylish -> Formatters.stylish(diffItems);
+            case plain -> Formatters.plain(diffItems);
+            case json -> Formatters.json(diffItems);
+        };
+        System.out.println(s);
         return null;
     }
 }
