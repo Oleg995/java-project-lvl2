@@ -1,6 +1,10 @@
-package hexlet.code;
+package hexlet.code.app;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import hexlet.code.Differ;
+import hexlet.code.Formatters;
+import hexlet.code.Parser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
