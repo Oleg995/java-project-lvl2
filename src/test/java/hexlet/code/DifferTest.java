@@ -1,20 +1,11 @@
-package hexlet.code.app;
-
+package hexlet.code;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import hexlet.code.Differ;
-import hexlet.code.Formatters;
-import hexlet.code.Parser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
-
-
 
 public class DifferTest {
 
