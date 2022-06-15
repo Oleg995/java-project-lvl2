@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import java.io.IOException;
 
 public class DifferTest {
+//    public static void main(String[] args) {
+//        File file = new File("src/test/resources/1.yaml");
+//        System.out.println(file.getAbsolutePath());
+//    }
 
     @Test
     public void test() {
@@ -20,33 +24,25 @@ public class DifferTest {
     }
     @Test
     public void generateTestFromYaml() throws IOException {
-        var map1 = Parser.getYamlFromFile("src/test/resources/1.yaml");
-        var map2 = Parser.getYamlFromFile("src/test/resources/2.yaml");
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
-        Assertions.assertEquals(file, Formatters.stylish(Differ.generate(map1, map2)));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml"));
     }
 
     @Test
     public void generateTestFromJson() throws IOException {
-        var map1 = Parser.getYamlFromFile("src/test/resources/fileOne.json");
-        var map2 = Parser.getYamlFromFile("src/test/resources/fileTwo.json");
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
-        Assertions.assertEquals(file, Formatters.stylish(Differ.generate(map1, map2)));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/fileOne.json", "src/test/resources/fileTwo.json"));
     }
 
     @Test
     public void formatOfPlain() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/examplePlain"));
-        var map1 = Parser.getYamlFromFile("src/test/resources/1.yaml");
-        var map2 = Parser.getYamlFromFile("src/test/resources/2.yaml");
-        Assertions.assertEquals(file, Formatters.plain(Differ.generate(map1, map2)));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml", DiffFormat.plain));
     }
 
     @Test
     public void formatOfJson() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/exampleJson"));
-        var map1 = Parser.getYamlFromFile("src/test/resources/actualPlain1.yaml");
-        var map2 = Parser.getYamlFromFile("src/test/resources/actualPlain2.yaml");
-        Assertions.assertEquals(file, Formatters.json(Differ.generate(map1, map2)));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml", "src/test/resources/actualPlain2.yaml", DiffFormat.json));
     }
 }

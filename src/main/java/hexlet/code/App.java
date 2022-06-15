@@ -28,26 +28,13 @@ public final class App implements Callable<Object> {
     public static void main(String[] args) throws Exception {
         CommandLine commandLine = new CommandLine(new App());
         commandLine.parseArgs(args);
-        if (commandLine.isUsageHelpRequested()) {
-            commandLine.usage(System.out);
-        } else if (commandLine.isVersionHelpRequested()) {
-            commandLine.printVersionHelp(System.out);
-        } else {
-            commandLine.execute(args);
+        commandLine.execute(args);
         }
-    }
 
     @Override
-    public Object call() throws Exception {
-        var map1 = Parser.getYamlFromFile(fileOne);
-        var map2 = Parser.getYamlFromFile(fileTwo);
-        var diffItems = Differ.generate(map1, map2);
-        var s = switch (format) {
-            case stylish -> Formatters.stylish(diffItems);
-            case plain -> Formatters.plain(diffItems);
-            case json -> Formatters.json(diffItems);
-        };
-        System.out.println(s);
+    public Integer call() throws Exception {
+        var diff = Differ.generate(fileOne, fileTwo, format);
+        System.out.println(diff);
         return null;
     }
 }

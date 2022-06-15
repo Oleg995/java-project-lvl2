@@ -1,41 +1,28 @@
 package hexlet.code;
 
-import com.fasterxml.jackson.databind.JsonNode;
 
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.TreeSet;
+import hexlet.code.Formatters.Json;
+import hexlet.code.Formatters.Plain;
+import hexlet.code.Formatters.Stylish;
+
+import java.io.IOException;
+
 
 public class Differ {
 
-    public static Set<DiffItem> generate(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
-        Set<String> keys = unionOfKeys(map1, map2);
-        Set<DiffItem> tree = new TreeSet<>(Comparator.comparing(diffItem1 -> diffItem1.name().toLowerCase()));
-        for (String key : keys) {
-            if (map1.containsKey(key) && !map2.containsKey(key)) {
-                DiffItem diffItem = new DiffItem(DiffType.REMOVE, key, map1.get(key), null);
-                tree.add(diffItem);
-            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                DiffItem diffItem = new DiffItem(DiffType.ADD, key, null, map2.get(key));
-                tree.add(diffItem);
-            } else if (Objects.equals(map1.get(key), map2.get(key))) {
-                DiffItem diffItem = new DiffItem(DiffType.NOTHING, key, map1.get(key), map1.get(key));
-                tree.add(diffItem);
-            } else if (!Objects.equals(map1.get(key), map2.get(key))) {
-                DiffItem diffItem = new DiffItem(DiffType.CHANGE, key, map1.get(key), map2.get(key));
-                tree.add(diffItem);
-            }
-        }
-        return tree;
+    public static String generate(String filepath1, String filepath2, DiffFormat format) throws IOException {
+        var map1 = Parser.getYamlFromFile(filepath1);
+        var map2 = Parser.getYamlFromFile(filepath2);
+        return switch (format) {
+            case stylish -> Stylish.stylish(Tree.build(map1, map2));
+            case plain -> Plain.plain(Tree.build(map1, map2));
+            case json -> Json.json(Tree.build(map1, map2));
+        };
     }
 
-    private  static Set<String> unionOfKeys(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
-        Set<String> keys = new TreeSet<>(String::compareToIgnoreCase);
-        keys.addAll(map1.keySet());
-        keys.addAll(map2.keySet());
-        return keys;
+    public static String generate(String filepath1, String filepath2) throws IOException {
+        return generate(filepath1, filepath2, DiffFormat.stylish);
     }
+
 }
 
