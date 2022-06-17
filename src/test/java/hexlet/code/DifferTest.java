@@ -29,20 +29,23 @@ public class DifferTest {
     }
 
     @Test
-    public void generateTestFromJson() throws IOException {
+    public void generateTestFromStylish() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/fileOne.json", "src/test/resources/fileTwo.json"));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/fileOne.json",
+                "src/test/resources/fileTwo.json"));
     }
 
     @Test
     public void formatOfPlain() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/examplePlain"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml", DiffFormat.plain));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml",
+                "src/test/resources/2.yaml", DiffFormat.plain));
     }
 
     @Test
     public void formatOfJson() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/exampleJson"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml", "src/test/resources/actualPlain2.yaml", DiffFormat.json));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml",
+                "src/test/resources/actualPlain2.yaml", DiffFormat.json));
     }
 }

@@ -25,11 +25,11 @@ public final class App implements Callable<Object> {
     @Parameters(index = "1", description = "path to second file", paramLabel = "filepath2")
     private String fileTwo;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new App());
         commandLine.parseArgs(args);
         commandLine.execute(args);
-        }
+    }
 
     @Override
     public Integer call() throws Exception {

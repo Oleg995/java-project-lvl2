@@ -14,9 +14,9 @@ public class Differ {
         var map1 = Parser.getYamlFromFile(filepath1);
         var map2 = Parser.getYamlFromFile(filepath2);
         return switch (format) {
-            case stylish -> Stylish.stylish(Tree.build(map1, map2));
+            case stylish -> Stylish.stylish(Tree.buildJson(map1, map2));
             case plain -> Plain.plain(Tree.build(map1, map2));
-            case json -> Json.json(Tree.build(map1, map2));
+            case json -> Json.json(Tree.buildJson(map1, map2));
         };
     }
 

@@ -3,34 +3,73 @@ package hexlet.code;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Map;
 
 
 public class Tree {
-    public static Set<DiffItem> build(Map<String, JsonNode> map1, Map<String, JsonNode> map2) throws IOException {
+    public static List<Map<String, Object>> build(Map<String, JsonNode> map1, Map<String, JsonNode> map2)
+            throws IOException {
         Set<String> keys = unionOfKeys(map1, map2);
-        Set<DiffItem> diffItems = new TreeSet<>(Comparator.comparing(diffItem1 -> diffItem1.name().toLowerCase()));
+        List<Map<String, Object>> list = new LinkedList<>();
         for (String key : keys) {
             if (map1.containsKey(key) && !map2.containsKey(key)) {
-                DiffItem diffItem = new DiffItem(DiffType.REMOVE, key, map1.get(key), null);
-                diffItems.add(diffItem);
+                Map<String, Object> map = new HashMap<>();
+                map.put(String.valueOf(DiffType.REMOVE), key);
+                map.put("value", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
+                list.add(map);
             } else if (!map1.containsKey(key) && map2.containsKey(key)) {
-                DiffItem diffItem = new DiffItem(DiffType.ADD, key, null, map2.get(key));
-                diffItems.add(diffItem);
+                Map<String, Object> map = new HashMap<>();
+                map.put(String.valueOf(DiffType.ADD), key);
+                map.put("value", map2.get(key).isContainerNode() ? "[complex value]" : map2.get(key));
+                list.add(map);
             } else if (Objects.equals(map1.get(key), map2.get(key))) {
-                DiffItem diffItem = new DiffItem(DiffType.NOTHING, key, map1.get(key), map1.get(key));
-                diffItems.add(diffItem);
+                Map<String, Object> map = new HashMap<>();
+                map.put(String.valueOf(DiffType.NOTHING), key);
+                map.put("value", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
+                list.add(map);
             } else if (!Objects.equals(map1.get(key), map2.get(key))) {
-                DiffItem diffItem = new DiffItem(DiffType.CHANGE, key, map1.get(key), map2.get(key));
-                diffItems.add(diffItem);
+                Map<String, Object> map = new HashMap<>();
+                map.put("newValue", map2.get(key).isContainerNode() ? "[complex value]" : map2.get(key));
+                map.put("oldValue", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
+                map.put(String.valueOf(DiffType.CHANGE), key);
+                list.add(map);
             }
-
         }
-        return diffItems;
+        return list;
+    }
+    public static List<Map<String, Object>> buildJson(Map<String, JsonNode> map1, Map<String, JsonNode> map2)
+            throws IOException {
+        Set<String> keys = unionOfKeys(map1, map2);
+        List<Map<String, Object>> list = new LinkedList<>();
+        for (String key : keys) {
+            if (map1.containsKey(key) && !map2.containsKey(key)) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("-" + key, map1.get(key));
+                list.add(map);
+            } else if (!map1.containsKey(key) && map2.containsKey(key)) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("+" + key, map2.get(key));
+                list.add(map);
+            } else if (Objects.equals(map1.get(key), map2.get(key))) {
+                Map<String, Object> map = new HashMap<>();
+                map.put(key, map1.get(key));
+                list.add(map);
+            } else if (!Objects.equals(map1.get(key), map2.get(key))) {
+                Map<String, Object> map = new TreeMap<>(Collections.reverseOrder());
+                map.put("+" + key, map2.get(key));
+                map.put("-" + key, map1.get(key));
+                list.add(map);
+            }
+        }
+        return list;
     }
 
     private static Set<String> unionOfKeys(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
