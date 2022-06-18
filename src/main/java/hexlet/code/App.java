@@ -19,7 +19,7 @@ public final class App implements Callable<Object> {
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
     private boolean versionInfoRequested;
     @Option(names = {"-f", "--format"}, defaultValue = "stylish", description = "output format", paramLabel = "format")
-    private DiffFormat format;
+    private String format;
     @Parameters(index = "0", description = "path to first file", paramLabel = "filepath1")
     private String fileOne;
     @Parameters(index = "1", description = "path to second file", paramLabel = "filepath2")

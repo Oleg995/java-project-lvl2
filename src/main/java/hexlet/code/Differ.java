@@ -10,18 +10,19 @@ import java.io.IOException;
 
 public class Differ {
 
-    public static String generate(String filepath1, String filepath2, DiffFormat format) throws IOException {
+    public static String generate(String filepath1, String filepath2, String format) throws IOException {
         var map1 = Parser.getYamlFromFile(filepath1);
         var map2 = Parser.getYamlFromFile(filepath2);
         return switch (format) {
-            case stylish -> Stylish.stylish(Tree.buildJson(map1, map2));
-            case plain -> Plain.plain(Tree.build(map1, map2));
-            case json -> Json.json(Tree.buildJson(map1, map2));
+            case "stylish" -> Stylish.stylish(Tree.buildJson(map1, map2));
+            case "plain" -> Plain.plain(Tree.build(map1, map2));
+            case "json" -> Json.json(Tree.buildJson(map1, map2));
+            default -> "format entered incorrectly";
         };
     }
 
     public static String generate(String filepath1, String filepath2) throws IOException {
-        return generate(filepath1, filepath2, DiffFormat.stylish);
+        return generate(filepath1, filepath2, "stylish");
     }
 
 }
