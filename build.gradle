@@ -10,7 +10,7 @@ plugins {
     id 'net.ltgt.errorprone' version '2.0.2'
 }
 
-group = 'io.hexlet'
+group = 'hexlet.code'
 version = '1.0.3-SNAPSHOT'
 
 repositories {
