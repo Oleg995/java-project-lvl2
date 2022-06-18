@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class Plain {
     public static String plain(List<Map<String, Object>> list) {
-        StringBuilder result = new StringBuilder("\n");
+        StringBuilder result = new StringBuilder();
         for (Map<String, Object> map  : list) {
             if (map.containsKey(String.valueOf(DiffType.REMOVE))) {
                 result.append("Property ").append("'").append(map.get(String.valueOf(DiffType.REMOVE))).append("'")
@@ -21,6 +21,6 @@ public class Plain {
                         .append(map.get("oldValue")).append(" to ").append(map.get("newValue")).append("\n");
             }
         }
-        return result.toString().replaceAll("\"", "'");
+        return result.toString().replaceAll("\"", "'").trim();
     }
 }
