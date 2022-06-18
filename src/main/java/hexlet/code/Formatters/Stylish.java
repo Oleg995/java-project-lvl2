@@ -8,7 +8,7 @@ public class Stylish {
         StringBuilder result = new StringBuilder("{\n");
         for (Map<String, Object> map : list) {
             map.forEach((k, v) -> result.append("  ").append(k.contains("-") || k.contains("+") ? k : "  " + k)
-                    .append(": ").append(v).append("\n"));
+                    .append(": ").append(v.toString().replaceAll(":", "=")).append("\n"));
 //            for (Map.Entry<String, Object> it : map.entrySet()) {
 //                result.append("  ")
 //                        .append(it.getKey().contains("-") || it.getKey()

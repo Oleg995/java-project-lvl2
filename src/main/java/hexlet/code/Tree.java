@@ -15,7 +15,8 @@ import java.util.TreeSet;
 
 
 public class Tree {
-    public static List<Map<String, Object>> build(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
+    public static List<Map<String, Object>> build(Map<String, JsonNode> map1, Map<String, JsonNode> map2)
+            throws IOException {
         Set<String> keys = unionOfKeys(map1, map2);
         List<Map<String, Object>> list = new LinkedList<>();
         for (String key : keys) {
@@ -44,7 +45,8 @@ public class Tree {
         }
         return list;
     }
-    public static List<Map<String, Object>> buildJson(Map<String, JsonNode> map1, Map<String, JsonNode> map2) {
+    public static List<Map<String, Object>> buildJson(Map<String, JsonNode> map1, Map<String, JsonNode> map2)
+            throws IOException {
         Set<String> keys = unionOfKeys(map1, map2);
         List<Map<String, Object>> list = new LinkedList<>();
         for (String key : keys) {
