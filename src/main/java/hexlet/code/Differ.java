@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Differ {
 
-    public static String generate(String filepath1, String filepath2, DiffFormat format) throws IOException {
+    public static String generate(String filepath1, String filepath2, DiffFormat format) throws IOException, IllegalAccessException {
         var map1 = Parser.getYamlFromFile(filepath1);
         var map2 = Parser.getYamlFromFile(filepath2);
         return switch (format) {
@@ -20,7 +20,7 @@ public class Differ {
         };
     }
 
-    public static String generate(String filepath1, String filepath2) throws IOException {
+    public static String generate(String filepath1, String filepath2) throws IOException, IllegalAccessException {
         return generate(filepath1, filepath2, DiffFormat.stylish);
     }
 

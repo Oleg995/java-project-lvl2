@@ -23,25 +23,25 @@ public class DifferTest {
         assertTrue(absolutePath.endsWith("src/test/resources"));
     }
     @Test
-    public void generateTestFromYaml() throws IOException {
+    public void generateTestFromYaml() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
         Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml"));
     }
 
     @Test
-    public void generateTestFromJson() throws IOException {
+    public void generateTestFromJson() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
         Assertions.assertEquals(file, Differ.generate("src/test/resources/fileOne.json", "src/test/resources/fileTwo.json"));
     }
 
     @Test
-    public void formatOfPlain() throws IOException {
+    public void formatOfPlain() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/examplePlain"));
         Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml", DiffFormat.plain));
     }
 
     @Test
-    public void formatOfJson() throws IOException {
+    public void formatOfJson() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/exampleJson"));
         Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml", "src/test/resources/actualPlain2.yaml", DiffFormat.json));
     }
