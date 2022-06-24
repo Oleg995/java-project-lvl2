@@ -1,21 +1,15 @@
-package hexlet.code.Formatters;
+package hexlet.code.formatters;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import hexlet.code.AddingToJson;
 import hexlet.code.DiffItem;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 public class Json {
-    public static String json(Set<DiffItem> items) throws JsonProcessingException, IllegalAccessException {
+    public static String render(Set<DiffItem> items) throws JsonProcessingException, IllegalAccessException {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node = mapper.createObjectNode();
 

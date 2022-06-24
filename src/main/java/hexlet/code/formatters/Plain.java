@@ -1,4 +1,4 @@
-package hexlet.code.Formatters;
+package hexlet.code.formatters;
 
 import hexlet.code.DiffItem;
 
@@ -6,9 +6,9 @@ import java.util.Objects;
 import java.util.Set;
 
 public class Plain {
-    public static String plain(Set<DiffItem> s) {
+    public static String render(Set<DiffItem> s) {
 
-        StringBuilder result = new StringBuilder("\n");
+        StringBuilder result = new StringBuilder();
         for (DiffItem item : s) {
             boolean oldValueComplex = item.oldValue() != null && item.oldValue().isContainerNode();
             boolean newValueComplex = item.newValue() != null && item.newValue().isContainerNode();
@@ -29,6 +29,6 @@ public class Plain {
                 }
             }
         }
-        return result.toString();
+        return result.toString().trim();
     }
 }
