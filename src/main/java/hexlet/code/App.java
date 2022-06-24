@@ -30,7 +30,7 @@ public final class App implements Callable<Object> {
     public static void main(String[] args) throws Exception {
         CommandLine commandLine = new CommandLine(new App());
         commandLine.execute(args);
-        }
+    }
 
     @Override
     public Integer call() {

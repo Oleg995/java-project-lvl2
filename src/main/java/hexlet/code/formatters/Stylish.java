@@ -13,8 +13,8 @@ public class Stylish {
                                 replaceAll(":", "=")).append("\n");
                 case REMOVE -> result.append("  - ").append(item.name()).append(": ").append(item.oldValue().toString().
                                 replaceAll(":", "=")).append("\n");
-                case NOTHING -> result.append("    ").append(item.name()).append(": ").append(item.oldValue().toString().
-                        replaceAll(":", "=")).append("\n");
+                case NOTHING -> result.append("    ").append(item.name()).append(": ").append(item.oldValue().toString()
+                                .replaceAll(":", "=")).append("\n");
                 case CHANGE -> result.append("  - ").append(item.name()).append(": ").append(item.oldValue().toString().
                         replaceAll(":", "=")).append("\n")
                         .append("  + ").append(item.name()).append(": ").append(item.newValue().toString().

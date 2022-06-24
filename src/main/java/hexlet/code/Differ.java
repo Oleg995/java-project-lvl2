@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 
 
 public class Differ {
-    public static String generate(String filepath1, String filepath2, String format) throws IOException, IllegalAccessException {
+    public static String generate(String filepath1, String filepath2, String format) throws IOException {
         var map1 = Parser.getParseJsonAndYaml(readingOfTheFile(filepath1));
         var map2 = Parser.getParseJsonAndYaml(readingOfTheFile(filepath2));
         return switch (format) {
