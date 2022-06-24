@@ -9,9 +9,12 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, JsonNode> parseJsonAndYaml(String stringData) throws IOException {
+
+    /*YAMLFactory парсит как json так и yaml формат, по этому не вижу смысла добавлять аргумент format в метод.
+     */
+    public static Map<String, JsonNode> getParseJsonAndYaml(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readValue(stringData, new TypeReference<>() {
+        return mapper.readValue(content, new TypeReference<>() {
         });
     }
 }

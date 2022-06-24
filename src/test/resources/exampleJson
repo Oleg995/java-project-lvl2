@@ -1,1 +1,24 @@
-[{"age":26},{"-aggge":28},{"-bought":{"Broad":1,"Milk":2,"Butter":1},"+bought":{"Milk":1,"Butter":2,"Shake":3}},{"-Name":"Oleg","+Name":"Dima"},{"+South":"system"},{"-state":"One"}]
+[ {
+  "type" : "NOTHING",
+  "name" : "age",
+  "oldValue" : 26,
+  "newValue" : 26
+}, {
+  "type" : "CHANGE",
+  "name" : "bought",
+  "oldValue" : {
+    "Broad" : 1,
+    "Milk" : 2,
+    "Butter" : 1
+  },
+  "newValue" : {
+    "Milk" : 1,
+    "Butter" : 2,
+    "Shake" : 3
+  }
+}, {
+  "type" : "CHANGE",
+  "name" : "Name",
+  "oldValue" : "Oleg",
+  "newValue" : "Dima"
+} ]

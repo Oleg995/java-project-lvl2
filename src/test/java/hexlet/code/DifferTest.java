@@ -29,6 +29,7 @@ public class DifferTest {
     }
 
     @Test
+
     public void generateTestFromStylish() throws IOException {
         String file = Files.readString(Paths.get("src/test/resources/exampleYaml"));
         Assertions.assertEquals(file, Differ.generate("src/test/resources/fileOne.json",

@@ -35,12 +35,12 @@ public final class App implements Callable<Object> {
     @Override
     public Integer call() {
         String diff;
-         try {
-             diff =  Differ.generate(fileOne, fileTwo, format);
-         } catch (Exception exception) {
-             return ERROR_EXIT_CODE;
-         }
-         System.out.println(diff);
-         return SUCCESS_EXIT_CODE;
+        try {
+            diff =  Differ.generate(fileOne, fileTwo, format);
+        } catch (Exception exception) {
+            return ERROR_EXIT_CODE;
+        }
+        System.out.println(diff);
+        return SUCCESS_EXIT_CODE;
     }
 }
