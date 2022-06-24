@@ -22,24 +22,28 @@ public class Tree {
         for (String key : keys) {
             if (map1.containsKey(key) && !map2.containsKey(key)) {
                 Map<String, Object> map = new HashMap<>();
-                map.put(String.valueOf(DiffType.REMOVE), key);
-                map.put("value", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
+                map.put("operation", DiffType.REMOVE);
+                map.put("key", key);
+                map.put("value", map1.get(key));
                 list.add(map);
             } else if (!map1.containsKey(key) && map2.containsKey(key)) {
                 Map<String, Object> map = new HashMap<>();
-                map.put(String.valueOf(DiffType.ADD), key);
-                map.put("value", map2.get(key).isContainerNode() ? "[complex value]" : map2.get(key));
+                map.put("operation", DiffType.ADD);
+                map.put("key", key);
+                map.put("value", map2.get(key));
                 list.add(map);
             } else if (Objects.equals(map1.get(key), map2.get(key))) {
                 Map<String, Object> map = new HashMap<>();
-                map.put(String.valueOf(DiffType.NOTHING), key);
-                map.put("value", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
+                map.put("operation", DiffType.NOTHING);
+                map.put("key", key);
+                map.put("value", map1.get(key));
                 list.add(map);
             } else if (!Objects.equals(map1.get(key), map2.get(key))) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("newValue", map2.get(key).isContainerNode() ? "[complex value]" : map2.get(key));
-                map.put("oldValue", map1.get(key).isContainerNode() ? "[complex value]" : map1.get(key));
-                map.put(String.valueOf(DiffType.CHANGE), key);
+                map.put("newValue", map2.get(key));
+                map.put("oldValue", map1.get(key));
+                map.put("operation", DiffType.CHANGE);
+                map.put("key", key);
                 list.add(map);
             }
         }

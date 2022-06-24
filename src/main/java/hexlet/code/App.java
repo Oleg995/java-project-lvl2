@@ -14,6 +14,8 @@ import java.util.concurrent.Callable;
         version = "1.0.0"
 )
 public final class App implements Callable<Object> {
+    private static final int SUCCESS_EXIT_CODE = 0;
+    private static final int ERROR_EXIT_CODE = 1;
     @Option(names = {"-h", "--help"}, usageHelp = true, description = "Show this help message and exit.")
     private boolean usageHelpRequested;
     @Option(names = {"-V", "--version"}, versionHelp = true, description = "Print version information and exit.")
@@ -27,14 +29,18 @@ public final class App implements Callable<Object> {
 
     public static void main(String[] args) {
         CommandLine commandLine = new CommandLine(new App());
-        commandLine.parseArgs(args);
         commandLine.execute(args);
     }
 
     @Override
-    public Integer call() throws Exception {
-        var diff = Differ.generate(fileOne, fileTwo, format);
-        System.out.println(diff);
-        return null;
+    public Integer call() {
+        String diff;
+         try {
+             diff =  Differ.generate(fileOne, fileTwo, format);
+         } catch (Exception exception) {
+             return ERROR_EXIT_CODE;
+         }
+         System.out.println(diff);
+         return SUCCESS_EXIT_CODE;
     }
 }

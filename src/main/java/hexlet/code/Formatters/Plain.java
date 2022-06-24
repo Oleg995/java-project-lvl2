@@ -1,6 +1,8 @@
 package hexlet.code.Formatters;
 
 import hexlet.code.DiffType;
+
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +16,8 @@ public class Plain {
             } else if (map.containsKey(String.valueOf(DiffType.ADD))) {
                 result.append("Property ").append("'").append(map.get(String.valueOf(DiffType.ADD))).append("'")
                         .append(" was added with value: ")
-                        .append(map.get("value")).append("\n");
+                        .append(map.get("value") instanceof String ? "[complex Value]" : map.get("value"))
+                        .append("\n");
             } else if (map.containsKey(String.valueOf(DiffType.CHANGE))) {
                 result.append("Property ").append("'").append(map.get(String.valueOf(DiffType.CHANGE))).append("'")
                         .append(" was updated. From ")
