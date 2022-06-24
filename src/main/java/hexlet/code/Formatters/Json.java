@@ -16,37 +16,26 @@ import java.util.Set;
 
 public class Json {
     public static String json(Set<DiffItem> items) throws JsonProcessingException, IllegalAccessException {
-        StringBuilder builder = new StringBuilder();
         ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+
         for (DiffItem item : items) {
             switch (item.type()) {
-                case ADD -> builder.append()
-            }
-            for (Field field : item.getClass().getDeclaredFields()) {
-                field.setAccessible(true);
-                AddingToJson notNull = field.getAnnotation(AddingToJson.class);
-                if (notNull != null) {
-                    builder.append(field.get(item));
+                case ADD -> put(node, "+" + item.name(), item.newValue());
+                case REMOVE -> put(node, "-" + item.name(), item.oldValue());
+                case NOTHING -> put(node, " " + item.name(), item.oldValue());
+                case CHANGE -> {
+                    put(node, "-" + item.name(), item.oldValue());
+                    put(node, "+" + item.name(), item.newValue());
+                }
+                default -> {
+                    //ignore
                 }
             }
         }
-        return builder.toString();
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(node);
     }
-//        for (DiffItem item : items) {
-//            switch (item.type()) {
-//                case ADD -> put(node, "+" + item.name(), item.newValue());
-//                case REMOVE -> put(node, "-" + item.name(), item.oldValue());
-//                case NOTHING -> put(node, " " + item.name(), item.oldValue());
-//                case CHANGE -> {
-//                    put(node, "-" + item.name(), item.oldValue());
-//                    put(node, "+" + item.name(), item.newValue());
-//                }
-//                default -> {
-//                    //ignore
-//                }
-//            }
-//        }
-//        return mapper.writeValueAsString(node.toString());
+
 
 
     private static void put(ObjectNode node, String name, JsonNode value) {

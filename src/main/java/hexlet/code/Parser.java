@@ -12,9 +12,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 public class Parser {
-    public static Map<String, JsonNode> getYamlFromFile(String filePath) throws IOException {
-        File file = new File(filePath);
-        String content = Files.readString(Paths.get(file.getAbsolutePath()));
+    public static Map<String, JsonNode> getYamlFromFile(String content) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         return mapper.readValue(content, new TypeReference<>() {
         });

@@ -37,12 +37,12 @@ public class DifferTest {
     @Test
     public void formatOfPlain() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/examplePlain"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml", DiffFormat.plain));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/1.yaml", "src/test/resources/2.yaml", "plain"));
     }
 
     @Test
     public void formatOfJson() throws IOException, IllegalAccessException {
         String file = Files.readString(Paths.get("src/test/resources/exampleJson"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml", "src/test/resources/actualPlain2.yaml", DiffFormat.json));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/actualPlain1.yaml", "src/test/resources/actualPlain2.yaml", "json"));
     }
 }

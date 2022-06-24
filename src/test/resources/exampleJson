@@ -1,1 +1,7 @@
-"{\" age\":26,\"-bought\":\"{Broad: 1, Milk: 2, Butter: 1}\",\"+bought\":\"{Milk: 1, Butter: 2, Shake: 3}\",\"-Name\":\"Oleg\",\"+Name\":\"Dima\"}"
+{
+  " age" : 26,
+  "-bought" : "{Broad: 1, Milk: 2, Butter: 1}",
+  "+bought" : "{Milk: 1, Butter: 2, Shake: 3}",
+  "-Name" : "Oleg",
+  "+Name" : "Dima"
+}
