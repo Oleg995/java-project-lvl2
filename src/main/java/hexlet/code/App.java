@@ -8,7 +8,7 @@ import picocli.CommandLine.Parameters;
 
 import java.util.concurrent.Callable;
 
-@Command (
+@Command(
         name = "gendiff",
         description = "Compares two configuration files and shows a difference.",
         version = "1.0.0"
@@ -36,7 +36,7 @@ public final class App implements Callable<Object> {
     public Integer call() {
         String diff;
         try {
-            diff =  Differ.generate(fileOne, fileTwo, format);
+            diff = Differ.generate(fileOne, fileTwo, format);
         } catch (Exception exception) {
             return ERROR_EXIT_CODE;
         }

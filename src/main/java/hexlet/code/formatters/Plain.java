@@ -1,6 +1,7 @@
 package hexlet.code.formatters;
 
 import hexlet.code.DiffItem;
+
 import java.util.Objects;
 import java.util.Set;
 

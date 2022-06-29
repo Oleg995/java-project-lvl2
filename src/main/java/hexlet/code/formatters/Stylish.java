@@ -10,13 +10,13 @@ public class Stylish {
         for (DiffItem item : s) {
             switch (item.type()) {
                 case ADD -> result.append("  + ").append(item.name()).append(": ").append(item.newValue().toString().
-                                replaceAll(":", "=")).append("\n");
+                        replaceAll(":", "=")).append("\n");
                 case REMOVE -> result.append("  - ").append(item.name()).append(": ").append(item.oldValue().toString().
-                                replaceAll(":", "=")).append("\n");
+                        replaceAll(":", "=")).append("\n");
                 case NOTHING -> result.append("    ").append(item.name()).append(": ").append(item.oldValue().toString()
-                                .replaceAll(":", "=")).append("\n");
+                        .replaceAll(":", "=")).append("\n");
                 case CHANGE -> result.append("  - ").append(item.name()).append(": ").append(item.oldValue().toString().
-                        replaceAll(":", "=")).append("\n")
+                                replaceAll(":", "=")).append("\n")
                         .append("  + ").append(item.name()).append(": ").append(item.newValue().toString().
                                 replaceAll(":", "=")).append("\n");
                 default -> {

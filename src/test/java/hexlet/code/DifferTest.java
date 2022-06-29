@@ -1,16 +1,17 @@
 package hexlet.code;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.IOException;
-import java.util.HashMap;
+
 import java.util.Map;
 
 public class DifferTest {
@@ -31,11 +32,12 @@ public class DifferTest {
         JsonNode jsonNode1 = mapper.readTree("\"Boston Red Sox\"");
         JsonNode jsonNode2 = mapper.readTree("\"New York Mets\"");
         Map<String, JsonNode> expected = Map.of("american", jsonNode1, "national", jsonNode2);
-        String path = "src/test/resources/YamlFile/typeData.yaml";
+        String path = "src/test/resources/YamlFile/typeData.yml";
         String typeData = new File(path).getName();
         Map<String, JsonNode> actual = Parser.getParseJsonAndYaml(Differ.readingOfTheFile(path), typeData);
         Assertions.assertEquals(expected, actual);
     }
+
     @Test
     public void testParserJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -50,23 +52,24 @@ public class DifferTest {
 
     @Test
     public void yamlWithFormatStylish() throws IOException {
-        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYaml"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/1.yaml", "src/test/resources/YamlFile/2.yaml", "stylish"));
+        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYml"));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/1.yml",
+                "src/test/resources/YamlFile/2.yml", "stylish"));
     }
 
     @Test
 
     public void yamlWithFormatJson() throws IOException {
-        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYamlWithJson"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/typeData.yaml",
-                "src/test/resources/YamlFile/typeData2.yaml", "json"));
+        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYmlWithJson"));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/typeData.yml",
+                "src/test/resources/YamlFile/typeData2.yml", "json"));
     }
 
     @Test
     public void yamlWithFormatPlain() throws IOException {
-        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYamlWithPlain"));
-        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/1.yaml",
-                "src/test/resources/YamlFile/2.yaml", "plain"));
+        String file = Files.readString(Paths.get("src/test/resources/YamlFile/exampleYmlWithPlain"));
+        Assertions.assertEquals(file, Differ.generate("src/test/resources/YamlFile/1.yml",
+                "src/test/resources/YamlFile/2.yml", "plain"));
     }
 
     @Test

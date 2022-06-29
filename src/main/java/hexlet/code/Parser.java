@@ -7,17 +7,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.IOException;
-import java.util.Comparator;
+
 import java.util.Map;
-import java.util.Objects;
+
 
 public class Parser {
 
-    /*YAMLFactory парсит как json так и yaml формат, по этому не вижу смысла добавлять аргумент format в метод.
-     */
     public static Map<String, JsonNode> getParseJsonAndYaml(String content, String typeData) throws IOException {
 
-        if (typeData.contains("yaml")) {
+        if (typeData.contains("yml")) {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             return mapper.readValue(content, new TypeReference<>() {
             });
