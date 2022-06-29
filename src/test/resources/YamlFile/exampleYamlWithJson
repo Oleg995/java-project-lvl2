@@ -1,0 +1,1 @@
+[{"type":"NOTHING","name":"american","oldValue":"Boston Red Sox","newValue":"Boston Red Sox"},{"type":"ADD","name":"location","oldValue":null,"newValue":"New York"},{"type":"CHANGE","name":"national","oldValue":"New York Mets","newValue":["New York Mets","Atlanta Braves"]}]

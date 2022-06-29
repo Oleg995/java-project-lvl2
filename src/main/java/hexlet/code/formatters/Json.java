@@ -9,6 +9,6 @@ import java.util.Set;
 public class Json {
     public static String render(Set<DiffItem> items) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(items);
+        return mapper.writeValueAsString(items);
     }
 }
